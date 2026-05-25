@@ -47,7 +47,7 @@ export default function MyRequestsPage() {
         <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
           <HiHeart className="mx-auto text-gray-300 text-6xl mb-4" />
           <h3 className="text-xl font-bold text-gray-900 mb-2">No requests yet</h3>
-          <Link href="/pets" className="btn-primary inline-block mt-4">Browse Pets</Link>
+          <Link href="/pets" className="btn btn-primary inline-block mt-4">Browse Pets</Link>
         </div>
       ) : (
         <>

@@ -9,7 +9,7 @@ import { signOut } from 'next-auth/react'
 import { useTheme } from '../components/ThemeProvider'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
-import { useAuth } from '@/context/AuthContext'
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
     const { user } = useAuth()

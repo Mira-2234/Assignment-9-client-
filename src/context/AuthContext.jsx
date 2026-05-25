@@ -1,28 +1,32 @@
 "use client";
-import { createContext, useContext } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
 
-const AuthContext = createContext(null);
+import { createContext, useContext, useState } from "react";
 
-export function AuthProvider({ children }) {
-    const { data: session, status } = useSession();
+const AuthContext = createContext();
 
-    const user    = session?.user ?? null;
-    const loading = status === "loading";
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
 
-    const googleLogin = () => signIn("google");
+  const logout = async () => {
+    setUser(null);
+  };
 
-    const logout = () => signOut({ callbackUrl: "/" });
+  const authInfo = {
+    user,
+    setUser,
+    logout,
+  };
 
-    return (
-        <AuthContext.Provider value={{ user, loading, googleLogin, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
+  return (
+    <AuthContext.Provider value={authInfo}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
+export default AuthProvider;
+
+// ✅ THIS IS THE IMPORTANT PART
 export const useAuth = () => {
-    const ctx = useContext(AuthContext);
-    if (!ctx) throw new Error("useAuth must be inside AuthProvider");
-    return ctx;
+  return useContext(AuthContext);
 };
