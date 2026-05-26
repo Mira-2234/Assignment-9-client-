@@ -1,32 +1,31 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext } from "react";
+import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export function AuthProvider({ children }) {
+    const { data: session, status } = useSession();
+    const router = useRouter();
 
-  const logout = async () => {
-    setUser(null);
-  };
+    const user    = session?.user ?? null;
+    const loading = status === "loading";
 
-  const authInfo = {
-    user,
-    setUser,
-    logout,
-  };
+    const logout = async () => {
+        await signOut({ redirect: false });
+        router.push("/");
+        router.refresh();
+    };
 
-  return (
-    <AuthContext.Provider value={authInfo}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+    return (
+        <AuthContext.Provider value={{ user, loading, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
+}
 
 export default AuthProvider;
 
-// ✅ THIS IS THE IMPORTANT PART
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);

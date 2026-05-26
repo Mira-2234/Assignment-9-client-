@@ -14,3 +14,7 @@
     @apply border border-gray-300 hover:bg-gray-100 py-3 rounded-xl transition;
   }
 }
+
+html, body {
+  overflow-x: hidden;
+}

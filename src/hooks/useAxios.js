@@ -4,7 +4,9 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
-const axiosInstance = axios.create({ baseURL: "/api" });
+const axiosInstance = axios.create({ 
+    baseURL: "/api"  // ← আগের মতো
+});
 
 export default function useAxios() {
   const { logout } = useAuth();
