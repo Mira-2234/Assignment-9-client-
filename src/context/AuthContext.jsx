@@ -4,7 +4,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "axios";
 
 const AuthContext = createContext(null);
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API = process.env.NEXT_PUBLIC_API_URL
 
 export function AuthProvider({ children }) {
     const { data: session, status } = useSession();
