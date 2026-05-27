@@ -88,7 +88,7 @@ export default function Navbar() {
                     </motion.div>
                 </div>
 
-                {/* CENTER */}
+            
                 <div className="navbar-center hidden lg:flex">
                     <motion.ul
                         className="menu menu-horizontal px-1 text-green-800 font-medium"
@@ -100,7 +100,7 @@ export default function Navbar() {
                     </motion.ul>
                 </div>
 
-                {/* RIGHT */}
+                {/* Right */}
                 <motion.div
                     className="navbar-end gap-2 flex items-center"
                     initial={{ opacity: 0, x: 20 }}
@@ -154,7 +154,7 @@ export default function Navbar() {
                                 <li><Link href="/dashboard/my-requests">🐾 My Requests</Link></li>
                                 <li className="border-t border-base-200 mt-1">
                                     <button onClick={handleLogout} className="text-red-500 hover:bg-red-50">
-                                        🚪 Logout
+                                        Logout
                                     </button>
                                 </li>
                             </ul>
