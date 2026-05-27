@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const PetSchema = new mongoose.Schema(
   {
-    // দুটো field naming support করে
     name:              { type: String },
     petName:           { type: String },
     species:           { type: String },
