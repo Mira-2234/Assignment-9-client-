@@ -9,7 +9,7 @@ export default function PetCard({ pet }) {
     const { user } = useAuth();
     const router = useRouter();
 
-    // পুরনো আর নতুন দুটো field handle
+    
     const petName  = pet?.name     || pet?.petName;
     const petImage = pet?.image    || pet?.imageUrl;
     const petAge   = pet?.age;
