@@ -54,7 +54,7 @@ export default function MyListingsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 px-4 py-8 mt-10">
 
-      {/* HEADER */}
+     
       <div className="mb-8">
         <h1 className="text-4xl font-extrabold text-green-700">
           My Listings 🐾
@@ -64,7 +64,7 @@ export default function MyListingsPage() {
         </p>
       </div>
 
-      {/* STATS */}
+ 
       <div className="grid grid-cols-3 gap-5 mb-10">
         {[
           { label: "Total", value: stats.total, cls: "bg-green-50 text-green-700" },
@@ -81,7 +81,7 @@ export default function MyListingsPage() {
         ))}
       </div>
 
-      {/* EMPTY STATE */}
+      
       {pets.length === 0 ? (
         <div className="text-center py-24 bg-white rounded-2xl border border-green-100 shadow-sm">
           <HiCollection className="mx-auto text-green-200 text-7xl mb-4" />
@@ -100,14 +100,14 @@ export default function MyListingsPage() {
           </Link>
         </div>
       ) : (
-        /* CARDS */
+       
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {pets.map((pet) => (
             <div
               key={pet._id}
               className="bg-white border border-green-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition duration-300"
             >
-              {/* IMAGE */}
+              {/* Image */}
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={pet.image}
@@ -126,7 +126,7 @@ export default function MyListingsPage() {
                 </span>
               </div>
 
-              {/* CONTENT */}
+            
               <div className="p-5">
                 <div className="flex justify-between items-center mb-1">
                   <h3 className="font-bold text-gray-900 text-lg">
@@ -141,7 +141,7 @@ export default function MyListingsPage() {
                   {pet.species} • {pet.breed}
                 </p>
 
-                {/* BUTTONS */}
+                {/* Buttons */}
                 <div className="grid grid-cols-2 gap-2">
 
                   <button
@@ -179,7 +179,7 @@ export default function MyListingsPage() {
         </div>
       )}
 
-      {/* MODALS */}
+      {/* Modals */}
       {reqPet && (
         <RequestsModal pet={reqPet} onClose={() => setReqPet(null)} />
       )}
