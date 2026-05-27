@@ -17,7 +17,7 @@ export async function POST(req) {
     const body = await req.json();
     const { petId } = body;
 
-    // ObjectId বা String দুটোই handle
+    
     let pet = null;
     if (mongoose.Types.ObjectId.isValid(petId) && petId.length === 24) {
       pet = await Pet.findById(petId).lean();
