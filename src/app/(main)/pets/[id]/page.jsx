@@ -30,7 +30,7 @@ export default function PetDetailsPage() {
         queryKey: ["myRequests"],
         queryFn: () =>
             axios.get("/api/requests", { withCredentials: true }).then((r) => r.data),
-        enabled: !!user, // user না থাকলে fetch করবে না
+        enabled: !!user, 
     });
 
     const existingRequest = myRequests.find(
