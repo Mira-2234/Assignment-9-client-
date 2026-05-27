@@ -33,7 +33,6 @@ export default function PetDetailsPage() {
         enabled: !!user, // user না থাকলে fetch করবে না
     });
 
-    // এই pet এর জন্য user এর active request আছে?
     const existingRequest = myRequests.find(
         (r) =>
             r.petId === id &&
@@ -48,7 +47,7 @@ export default function PetDetailsPage() {
             setShowForm(false);
             setFormData({ pickupDate: "", message: "" });
             qc.invalidateQueries(["myRequests"]);
-            qc.invalidateQueries(["pet", id]); // pet status ও refresh করো
+            qc.invalidateQueries(["pet", id]);
         },
         onError: (err) =>
             toast.error(err.response?.data?.message || "Failed to submit"),
@@ -100,7 +99,7 @@ export default function PetDetailsPage() {
 
                 <div className="grid grid-cols-2 gap-5 items-start">
 
-                    {/* LEFT — Image + Details */}
+                    {/* Left — Image + Details */}
                     <div className="space-y-5">
                         <div className="relative rounded-2xl overflow-hidden h-52 bg-gray-100 shadow-sm">
                             {image && (
