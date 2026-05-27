@@ -8,7 +8,8 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import {
     HiLocationMarker, HiShieldCheck, HiHeart,
-    HiCalendar, HiUser, HiMail, HiClock
+    HiCalendar, HiUser, HiMail, HiClock,
+    HiClipboardList
 } from "react-icons/hi";
 
 export default function PetDetailsPage() {
@@ -24,13 +25,30 @@ export default function PetDetailsPage() {
         queryFn: () => axios.get(`/api/pets/${id}`).then((r) => r.data),
     });
 
+    // ── user এর existing request check ──
+    const { data: myRequests = [] } = useQuery({
+        queryKey: ["myRequests"],
+        queryFn: () =>
+            axios.get("/api/requests", { withCredentials: true }).then((r) => r.data),
+        enabled: !!user, // user না থাকলে fetch করবে না
+    });
+
+    // এই pet এর জন্য user এর active request আছে?
+    const existingRequest = myRequests.find(
+        (r) =>
+            r.petId === id &&
+            (r.status === "pending" || r.status === "approved")
+    );
+
     const adoptMutation = useMutation({
-        mutationFn: (data) => axios.post("/api/requests", data),
+        mutationFn: (data) =>
+            axios.post("/api/requests", data, { withCredentials: true }),
         onSuccess: () => {
             toast.success("Adoption request submitted! 🐾");
             setShowForm(false);
             setFormData({ pickupDate: "", message: "" });
             qc.invalidateQueries(["myRequests"]);
+            qc.invalidateQueries(["pet", id]); // pet status ও refresh করো
         },
         onError: (err) =>
             toast.error(err.response?.data?.message || "Failed to submit"),
@@ -75,28 +93,18 @@ export default function PetDetailsPage() {
         <div className="min-h-screen bg-gray-50 py-10 mt-20">
             <div className="max-w-6xl mx-auto px-4">
 
-                {/* Back */}
                 <Link href="/pets"
                     className="inline-flex items-center gap-1 text-sm text-green-600 font-medium mb-8 hover:underline">
                     ← Back to All Pets
                 </Link>
 
-                {/* ── MAIN 2 COLUMN LAYOUT ── */}
                 <div className="grid grid-cols-2 gap-5 items-start">
 
-                    {/* ══════════════════════════════
-                        LEFT — Image + Details
-                    ══════════════════════════════ */}
+                    {/* LEFT — Image + Details */}
                     <div className="space-y-5">
-
-                        {/* Small Image */}
                         <div className="relative rounded-2xl overflow-hidden h-52 bg-gray-100 shadow-sm">
                             {image && (
-                                <img
-                                    src={image}
-                                    alt={petName}
-                                    className="w-full h-full object-cover"
-                                />
+                                <img src={image} alt={petName} className="w-full h-full object-cover" />
                             )}
                             <span className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold ${
                                 pet.status === "adopted"
@@ -107,7 +115,6 @@ export default function PetDetailsPage() {
                             </span>
                         </div>
 
-                        {/* Name, Price, Location */}
                         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
                             <div className="flex justify-between items-start mb-2">
                                 <div>
@@ -127,7 +134,6 @@ export default function PetDetailsPage() {
                             </div>
                         </div>
 
-                        {/* Info Pills */}
                         <div className="grid grid-cols-2 gap-3">
                             <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-3">
                                 <p className="text-xs text-gray-400 mb-1">Species</p>
@@ -150,13 +156,11 @@ export default function PetDetailsPage() {
                             </div>
                         </div>
 
-                        {/* Description */}
                         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mt-2">
                             <p className="text-xs text-gray-400 mb-2 font-medium uppercase tracking-wide">About</p>
                             <p className="text-gray-600 text-sm leading-relaxed">{pet.description}</p>
                         </div>
 
-                        {/* Owner */}
                         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mt-2">
                             <p className="text-xs text-gray-400 mb-3 font-medium uppercase tracking-wide">Owner</p>
                             <div className="flex items-center gap-3">
@@ -170,7 +174,6 @@ export default function PetDetailsPage() {
                             </div>
                         </div>
 
-                        {/* How it works */}
                         <div className="bg-green-50 rounded-2xl border border-green-100 p-5 mt-2">
                             <p className="font-bold text-green-800 text-sm mb-3">🐾 How Adoption Works</p>
                             <div className="space-y-2">
@@ -191,9 +194,7 @@ export default function PetDetailsPage() {
                         </div>
                     </div>
 
-                    {/* ══════════════════════════════
-                        RIGHT — Adopt Section
-                    ══════════════════════════════ */}
+                    {/* RIGHT — Adopt Section */}
                     <div className="sticky top-24">
 
                         {isOwner ? (
@@ -214,8 +215,30 @@ export default function PetDetailsPage() {
                                 </Link>
                             </div>
 
+                        ) : existingRequest ? (
+                            /*request */
+                            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-10 text-center">
+                                <HiClipboardList className="text-5xl text-blue-400 mx-auto mb-4" />
+                                <p className="font-bold text-blue-800 mb-1">Request Already Submitted</p>
+                                <p className="text-sm text-blue-600 mb-2">
+                                    You have already applied to adopt {petName}.
+                                </p>
+                                <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                                    existingRequest.status === "approved"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-yellow-100 text-yellow-700"
+                                }`}>
+                                    Status: {existingRequest.status === "approved" ? "✅ Approved" : "⏳ Pending"}
+                                </span>
+                                <div className="mt-5">
+                                    <Link href="/dashboard/my-requests"
+                                        className="inline-block px-6 py-2.5 bg-green-600 text-white rounded-xl text-sm hover:bg-green-700 transition font-medium">
+                                        View My Requests
+                                    </Link>
+                                </div>
+                            </div>
+
                         ) : !showForm ? (
-                            /* ── Adopt CTA ── */
                             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-10 text-center">
                                 <div className="text-6xl mb-5">🐾</div>
                                 <h3 className="text-2xl font-bold text-gray-800 mb-3">
@@ -237,7 +260,6 @@ export default function PetDetailsPage() {
                             </div>
 
                         ) : (
-                            /* ── Adopt Form ── */
                             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                                 <div className="flex items-center justify-between mb-5">
                                     <h2 className="text-xl font-bold text-gray-800">Adoption Application</h2>
