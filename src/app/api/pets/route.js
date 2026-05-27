@@ -13,7 +13,7 @@ export async function GET(req) {
         const species = searchParams.get("species") || "";
         const sort    = searchParams.get("sort")    || "";
 
-        // status filter সরিয়ে দিলাম — সব pets দেখাবে
+        
         const query = {};
 
         if (search) {
