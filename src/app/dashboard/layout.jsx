@@ -73,9 +73,9 @@ export default function DashboardLayout({ children }) {
                 />
             )}
 
-            {/* Main */}
+        
             <div className="flex-1 min-w-0 flex flex-col">
-                {/* Mobile header */}
+              
                 <header className="lg:hidden bg-white border-b border-gray-100 px-4 py-3 flex items-center gap-3 sticky top-16 z-20">
                     <button
                         onClick={() => setOpen(true)}
