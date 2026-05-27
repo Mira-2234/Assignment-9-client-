@@ -7,7 +7,6 @@ if (!MONGODB_URI) {
   throw new Error("Please define MONGODB_URI in .env.local");
 }
 
-// ── Mongoose (pets route এর জন্য) ──
 let cached = global.mongoose || { conn: null, promise: null };
 
 export async function connectDB() {
@@ -20,7 +19,6 @@ export async function connectDB() {
   return cached.conn;
 }
 
-// ── MongoClient (NextAuth adapter এর জন্য) ──
 let clientPromise;
 
 if (process.env.NODE_ENV === "development") {
