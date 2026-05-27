@@ -11,10 +11,9 @@ export function AuthProvider({ children }) {
     const [emailUser, setEmailUser] = useState(null);
     const loading = status === "loading";
 
-    // Google user অথবা Email/Password user
+    
     const user = session?.user || emailUser;
 
-    // Google login হলে Express এ JWT নাও
     useEffect(() => {
         if (session?.user) {
             axios.post(

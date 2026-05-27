@@ -15,7 +15,7 @@ export default function NotFound() {
 
       {/* Description */}
       <p className="text-green-600 max-w-md mb-6 text-sm leading-relaxed">
-        Looks like this page wandered off like a curious little puppy 🐶  
+        Looks like this page wandered off like a curious little puppy.   
         The page you’re looking for doesn’t exist or has been moved.
       </p>
 
