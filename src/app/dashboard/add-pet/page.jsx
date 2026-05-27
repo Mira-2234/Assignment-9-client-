@@ -22,7 +22,7 @@ export default function AddPetPage() {
   const [preview, setPreview] = useState("");
   const [file, setFile] = useState(null);
 
-  // ✅ FIXED useForm
+  
   const {
     register,
     handleSubmit,
@@ -30,7 +30,7 @@ export default function AddPetPage() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  // ✅ API mutation
+  
   const mutation = useMutation({
     mutationFn: async (data) => {
       return await axios.post("/pets", data);
@@ -49,7 +49,7 @@ export default function AddPetPage() {
     },
   });
 
-  // ✅ Submit handler
+  
   const onSubmit = async (data) => {
     let image = data.imageUrl;
 
