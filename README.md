@@ -35,9 +35,8 @@ https://assignment-9-client-mu.vercel.app/
 - axios
 - react-hook-form
 - react-toastify
-- firebase (if used for auth)
 - jwt-decode
-- framer-motion (optional animation)
+- framer-motion
 - tailwindcss / daisyUI
 
 ---
