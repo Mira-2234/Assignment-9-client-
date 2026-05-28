@@ -3,9 +3,17 @@ import PetCard from './PetCard'
 
 export default async function FeaturedPets() {
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pets`, {
+   const res = await fetch(`https://assignment-9-server-1-cxv0.onrender.com/pets`, {
     cache: "no-store"
 });
+
+if (!res.ok) {
+    console.error("Fetch failed:", res.status);
+    return <div>Failed to load pets</div>;
+}
+
+const data = await res.json();
+const pets = Array.isArray(data) ? data : [];
 
     const pets = await res.json();
 
