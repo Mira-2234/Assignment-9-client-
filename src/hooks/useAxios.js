@@ -5,10 +5,9 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 
 const axiosInstance = axios.create({
-    baseURL:         process.env.NEXT_PUBLIC_API_URL,
+    baseURL: "/api",  // Next.js API routes
     withCredentials: true,
 });
-
 export default function useAxios() {
     const { logout } = useAuth();
     const router     = useRouter();

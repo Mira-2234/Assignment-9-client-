@@ -31,15 +31,19 @@ export function AuthProvider({ children }) {
     const googleLogin = () => signIn("google");
 
     // Email/Password login
-    const login = async (email, password) => {
-        const res = await axios.post(
-            `${API}/auth/login`,
-            { email, password },
-            { withCredentials: true }
-        );
-        setEmailUser(res.data.user);
-        return res.data;
-    };
+ const login = async (email, password) => {
+    const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+    });
+
+    if (res?.error) {
+        throw new Error("Invalid email or password");
+    }
+
+    return res;
+};
 
     // Register
     const register = async (name, email, photoURL, password) => {
