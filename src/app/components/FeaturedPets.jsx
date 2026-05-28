@@ -3,7 +3,7 @@ import PetCard from './PetCard'
 
 export default async function FeaturedPets() {
 
-    const res = await fetch('http://localhost:5000/pets', {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pets`, {
         cache: "no-store"
     });
 
